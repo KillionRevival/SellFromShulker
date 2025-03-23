@@ -1,0 +1,6 @@
+{
+  "plugin-prefix": "&8[&3KillionProtection&8] &r",
+  "log-level": "DEBUG",
+  "debugMode": false,
+  "credentialsFilePath": "plugins/PostgresCredentials/credentials.json"
+}

@@ -1,0 +1,10 @@
+name: REPLACE_ME
+version: ${version}
+main: co.killionrevival.REPLACE_ME.Plugin
+api-version: ${mcVersion}
+description: SOME PLUGIN
+dependencies:
+  server:
+    KillionCommons:
+      load: BEFORE
+authors: [tut, flyerzrule, Fross]

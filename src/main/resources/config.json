@@ -1,0 +1,20 @@
+{
+  "plugin-prefix": "&8[&3KillionProtection&8] &r",
+  "log-level": "DEBUG",
+  "debugMode": false,
+  "credentialsFilePath": "plugins/PostgresCredentials/credentials.json",
+  "newChunkClaimCostStart": 200000,
+  "newChunkBreakpoints": [4, 9, 16],
+  "newChunkBreakpointMultiplier": 2.0,
+  "verticalExpansionCost": 50000,
+  "verticalExpansionIncrements": 16,
+  "dtrRaidableDurationInTicks": 72000,
+  "dtrLastDeathClearTimerInTicks": 36000,
+  "dtrInitialDeathMax": 2,
+  "dtrScalingMultiplier": 2.0,
+  "dtrScalingBreakpoints": [2, 6, 10, 14],
+  "dtrExcludedClanRankNames": ["Alt", "Alts"],
+  "dtrPrimaryGroups": ["free", "citizen"],
+  "claimGrowthEnabled": false,
+  "countSuicideTowardsDtr": false
+}

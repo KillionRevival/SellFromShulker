@@ -1,15 +1,20 @@
-package co.killionrevival.REPLACE_ME;
+package co.killionrevival.sellfromshulker;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 import co.killionrevival.killioncommons.KillionUtilities;
 import co.killionrevival.killioncommons.util.console.ConsoleUtil;
+import lombok.Getter;
 
-public class Plugin extends JavaPlugin {
-    private final String pluginName = "REPLACE_ME";
+public class SellFromShulker extends JavaPlugin {
+    private final String pluginName = "SellFromShulker";
+
+    @Getter
     private static JavaPlugin plugin;
+    @Getter
     private static KillionUtilities killionUtilities;
-    private static ConsoleUtil logger;
+    @Getter
+    private static ConsoleUtil myLogger;
 
     @Override
     public void onEnable() {
@@ -17,21 +22,13 @@ public class Plugin extends JavaPlugin {
         saveDefaultConfig();
         plugin = this;
         killionUtilities = new KillionUtilities(this);
-        logger = killionUtilities.getConsoleUtil();
-        logger.sendSuccess(this.pluginName + " has been enabled.");
+        myLogger = killionUtilities.getConsoleUtil();
+        myLogger.sendSuccess(this.pluginName + " has been enabled.");
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        logger.sendSuccess(this.pluginName + " has been disabled.");
-    }
-
-    public static JavaPlugin getPlugin() {
-        return plugin;
-    }
-
-    public static ConsoleUtil getMyLogger() {
-        return logger;
+        myLogger.sendSuccess(this.pluginName + " has been disabled.");
     }
 }

@@ -8,4 +8,4 @@ author: flyerzrule
 permissions:
   sellfromshulker.sell:
     description: Allows the player to sell items directly from their shulker boxes
-    default: no
+    default: op

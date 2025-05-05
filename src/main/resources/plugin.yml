@@ -1,0 +1,11 @@
+name: SellFromShulker
+version: ${version}
+main: co.killionrevival.sellfromshulker.SellFromShulker
+api-version: ${mcVersion}
+description: Allows players to sell items directly from their shulker boxes
+depend: [KillionCommons, EconomyShopGUI-Premium, CoinsEngine]
+author: flyerzrule
+permissions:
+  sellfromshulker.sell:
+    description: Allows the player to sell items directly from their shulker boxes
+    default: no

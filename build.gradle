@@ -22,6 +22,10 @@ repositories {
         url 'https://jitpack.io' 
     }
     maven {
+        name 'nightexpress-releases'
+        url 'https://repo.nightexpressdev.com/releases'
+    }
+    maven {
         url "https://maven.pkg.github.com/KillionRevival/KillionCommons"
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
@@ -35,6 +39,9 @@ dependencies {
     compileOnly "co.killionrevival:killioncommons:3.3.2-SNAPSHOT"
 
     implementation 'com.github.Gypopo:EconomyShopGUI-API:1.7.3'
+    implementation ("su.nightexpress.coinsengine:CoinsEngine:2.4.2") {
+        exclude group: 'org.spigotmc'
+    }
 
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'

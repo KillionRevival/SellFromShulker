@@ -1,5 +1,7 @@
 package co.killionrevival.sellfromshulker;
 
+import co.killionrevival.sellfromshulker.listeners.TransactionListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import co.killionrevival.killioncommons.KillionUtilities;
@@ -23,6 +25,9 @@ public class SellFromShulker extends JavaPlugin {
         plugin = this;
         killionUtilities = new KillionUtilities(this);
         myLogger = killionUtilities.getConsoleUtil();
+
+        registerListeners();
+
         myLogger.sendSuccess(this.pluginName + " has been enabled.");
     }
 
@@ -30,5 +35,9 @@ public class SellFromShulker extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         myLogger.sendSuccess(this.pluginName + " has been disabled.");
+    }
+
+    private void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new TransactionListener(), this);
     }
 }

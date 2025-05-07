@@ -35,7 +35,7 @@ public class TransactionListener implements Listener {
 
         Player player = event.getPlayer();
         ItemStack playerHeldItem = player.getInventory().getItemInMainHand();
-        if (!playerHeldItem.getType().name().toLowerCase().endsWith("_shulker_box")) {
+        if (!playerHeldItem.getType().name().toLowerCase().endsWith("shulker_box")) {
             SellFromShulker.getMyLogger().sendDebug("Player did not have a shulker box in their hand.");
             player.sendMessage(Component.text("You do not have a shulker box in your hand.").color(NamedTextColor.RED));
             event.setCancelled(true);
@@ -71,7 +71,7 @@ public class TransactionListener implements Listener {
 
         Player player = event.getPlayer();
         ItemStack playerHeldItem = player.getInventory().getItemInMainHand();
-        if (!playerHeldItem.getType().name().toLowerCase().endsWith("_shulker_box")) {
+        if (!playerHeldItem.getType().name().toLowerCase().endsWith("shulker_box")) {
             SellFromShulker.getMyLogger().sendDebug("Player did not have a shulker box in their hand.");
             return;
         }

@@ -13,7 +13,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class TransactionListener implements Listener {
+    private final Map<UUID, Long> recentShulkerSells = new HashMap<>();
+    private static final long COOLDOWN_MS = 1000;
+
     @EventHandler
     public void onPreTransaction(PreTransactionEvent event) {
         SellFromShulker.getMyLogger().sendDebug("Got PreTransactionEvent for shopstand sell");
@@ -34,6 +41,16 @@ public class TransactionListener implements Listener {
         }
 
         Player player = event.getPlayer();
+
+        UUID playerUUID = player.getUniqueId();
+        Long lastSell = recentShulkerSells.get(playerUUID);
+        long currentTime = System.currentTimeMillis();
+        if (lastSell != null && (currentTime - lastSell) < COOLDOWN_MS) {
+            SellFromShulker.getMyLogger().sendDebug("Player recently used shulker selling, skipping to prevent double processing");
+            event.setCancelled(true);
+            return;
+        }
+
         ItemStack playerHeldItem = player.getInventory().getItemInMainHand();
         if (!playerHeldItem.getType().name().toLowerCase().endsWith("shulker_box")) {
             SellFromShulker.getMyLogger().sendDebug("Player did not have a shulker box in their hand.");
@@ -49,15 +66,17 @@ public class TransactionListener implements Listener {
             return;
         }
 
-        Sell.sellFromShulker(player, event.getShopItem().getShopItem(), event.getPrice(), event.getShopItem().getItemPath());
+        recentShulkerSells.put(playerUUID, currentTime);
+
+        double price = EconomyShopGUIHook.getItemSellPrice(event.getShopItem(), event.getShopItem().getShopItem(), event.getPlayer());
+
+        Sell.sellFromShulker(player, event.getShopItem().getShopItem(), price, event.getShopItem().getItemPath());
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPostTransaction(PostTransactionEvent event) {
         SellFromShulker.getMyLogger().sendDebug("Got PostTransactionEvent for shopstand sell");
-
-        double price = EconomyShopGUIHook.getItemSellPrice(event.getShopItem(), event.getShopItem().getShopItem(), event.getPlayer());
 
         if (!event.getTransactionType().equals(Transaction.Type.SHOPSTAND_SELL_SCREEN)) {
             SellFromShulker.getMyLogger().sendDebug("Transaction type was not SHOPSTAND_SELL_SCREEN");
@@ -70,6 +89,15 @@ public class TransactionListener implements Listener {
         }
 
         Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
+
+        Long lastSell = recentShulkerSells.get(playerUUID);
+        long currentTime = System.currentTimeMillis();
+        if (lastSell != null && (currentTime - lastSell) < COOLDOWN_MS) {
+            SellFromShulker.getMyLogger().sendDebug("Player recently used shulker selling, skipping PostTransactionEvent to prevent double processing");
+            return;
+        }
+
         ItemStack playerHeldItem = player.getInventory().getItemInMainHand();
         if (!playerHeldItem.getType().name().toLowerCase().endsWith("shulker_box")) {
             SellFromShulker.getMyLogger().sendDebug("Player did not have a shulker box in their hand.");
@@ -82,7 +110,12 @@ public class TransactionListener implements Listener {
             return;
         }
 
+        double price = EconomyShopGUIHook.getItemSellPrice(event.getShopItem(), event.getShopItem().getShopItem(), event.getPlayer());
+
+        recentShulkerSells.put(playerUUID, currentTime);
+
         Sell.sellFromShulker(player, event.getShopItem().getShopItem(), price, event.getShopItem().getItemPath());
+
+        SellFromShulker.getMyLogger().sendDebug("Successfully processed shulker sell in PostTransactionEvent");
     }
 }
-
